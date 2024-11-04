@@ -1,0 +1,23 @@
+class Discount:
+    """Class representing a discount with percentage and minimum quantity."""
+
+    def __init__(self, percentage, min_quantity):
+        self.__percentage = percentage
+        self.__min_quantity = min_quantity
+
+    # Getters
+    def get_percentage(self):
+        return self.__percentage
+
+    def get_min_quantity(self):
+        return self.__min_quantity
+
+    # Setters
+    def set_percentage(self, percentage):
+        self.__percentage = percentage
+
+    def set_min_quantity(self, min_quantity):
+        self.__min_quantity = min_quantity
+
+    def __str__(self):
+        return f"Discount: {self.get_percentage() * 100}%, Min Quantity: {self.get_min_quantity()}"
