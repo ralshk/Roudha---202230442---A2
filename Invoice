@@ -1,0 +1,37 @@
+class Invoice:
+    """Class representing an invoice with itemized prices and discounts."""
+
+    def __init__(self, invoice_id, itemized_prices, discounts, vat=0.08):
+        self.__invoice_id = invoice_id
+        self.__itemized_prices = itemized_prices
+        self.__discounts = discounts
+        self.__vat = vat
+
+    # Getters
+    def get_invoice_id(self):
+        return self.__invoice_id
+
+    def get_itemized_prices(self):
+        return self.__itemized_prices
+
+    def get_discounts(self):
+        return self.__discounts
+
+    def get_vat(self):
+        return self.__vat
+
+    # Setters
+    def set_invoice_id(self, invoice_id):
+        self.__invoice_id = invoice_id
+
+    def set_itemized_prices(self, itemized_prices):
+        self.__itemized_prices = itemized_prices
+
+    def set_discounts(self, discounts):
+        self.__discounts = discounts
+
+    def set_vat(self, vat):
+        self.__vat = vat
+
+    def __str__(self):
+        return f"Invoice ID: {self.get_invoice_id()}, Total after VAT: ${self.calculate_total():.2f}"
