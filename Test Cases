@@ -1,0 +1,104 @@
+import unittest
+from EBook import EBook
+from Customer import Customer
+from LoyaltyCustomer import LoyaltyCustomer
+from Account import Account
+from ShoppingCart import ShoppingCart
+from Order import Order
+from Invoice import Invoice
+from Discount import Discount
+
+class TestEBookStore(unittest.TestCase):
+    
+    def setUp(self):
+        """Setup common resources for testing."""
+        # Initialize e-books related to specific courses
+        self.ebook1 = EBook("Ethical Systems & Moral Dilemmas", "Prof. Zeina", "2022-09-01", 59.99)
+        self.ebook2 = EBook("Probability, Statistics & Randomness", "Prof. Linda", "2023-01-15", 49.99)
+        self.ebook3 = EBook("Programming Fundamentals", "Prof. Sujith", "2021-12-10", 39.99)
+        self.ebook4 = EBook("Computer Network Fundamentals", "Prof. Maha", "2023-08-20", 69.99)
+        
+        # Customer and Loyalty Customer setup
+        self.customer = Customer("Roudha Alshaikh", "roudha@gmail.com", "IAH244")
+        self.loyalty_customer = LoyaltyCustomer("Roudha Alshaikh", "roudha@gmail.com", "IAH244", 300, "Gold")
+        
+        # Account setup
+        self.account = Account("roudhalshaikh", "securepassword123")
+        
+        # Shopping cart, order, and discount setup
+        self.cart = ShoppingCart()
+        self.order = Order(20954, "2024-01-15")  # Example order ID and date
+        self.discount = Discount(0.10, 3)  # 10% discount for 3 or more items
+
+    def test_add_modify_remove_ebook(self):
+        """Test adding, modifying, and removing e-books in the e-bookstore's catalog."""
+        # Test adding e-books
+        self.assertEqual(self.ebook1.get_title(), "Ethical Systems & Moral Dilemmas")
+        self.assertEqual(self.ebook1.get_price(), 59.99)
+        
+        # Modify e-book details
+        self.ebook1.set_title("Advanced Ethical Systems")
+        self.ebook1.set_price(54.99)
+        self.assertEqual(self.ebook1.get_title(), "Advanced Ethical Systems")
+        self.assertEqual(self.ebook1.get_price(), 54.99)
+
+    def test_add_modify_remove_customer_account(self):
+        """Test adding, modifying, and removing customer account."""
+        # Test customer details
+        self.assertEqual(self.customer.get_name(), "Roudha Alshaikh")
+        self.customer.set_contact_info("roudha.new@example.com")
+        self.assertEqual(self.customer.get_contact_info(), "roudha.new@example.com")
+        
+        # Test linking account to customer
+        self.customer.set_account(self.account)
+        self.assertEqual(self.customer.get_account().get_username(), "roudhalshaikh")
+
+    def test_add_ebooks_to_cart(self):
+        """Test adding e-books to the shopping cart."""
+        # Add e-books to the shopping cart
+        self.cart.add_item(self.ebook1)
+        self.cart.add_item(self.ebook2)
+        self.assertEqual(len(self.cart.get_items()), 2)
+        self.assertAlmostEqual(self.cart.get_total_price(), 109.98, places=2)
+        
+        # Remove an e-book from the cart
+        self.cart.remove_item(self.ebook1)
+        self.assertEqual(len(self.cart.get_items()), 1)
+        self.assertAlmostEqual(self.cart.get_total_price(), 49.99, places=2)
+
+    def test_apply_discount_for_loyalty_customer(self):
+        """Test applying discounts for loyalty program members."""
+        # Add e-books to the order and apply loyalty discount
+        self.order.add_ebook(self.ebook1)
+        self.order.add_ebook(self.ebook2)
+        self.order.add_ebook(self.ebook3)
+        self.order.add_ebook(self.ebook4)
+        
+        # Loyalty discount for Gold member
+        loyalty_discount = self.loyalty_customer.apply_loyalty_discount()
+        self.order.apply_discount(loyalty_discount)
+        self.assertAlmostEqual(self.order.get_total_amount(), 193.46, places=2)  # After 10% loyalty discount
+
+    def test_generate_invoice_with_bulk_discount(self):
+        """Test generating an invoice with relevant discounts and VAT applied."""
+        # Add multiple e-books to qualify for bulk discount
+        self.cart.add_item(self.ebook1)
+        self.cart.add_item(self.ebook2)
+        self.cart.add_item(self.ebook3)
+        self.cart.add_item(self.ebook4)
+        
+        # Check if discount applies (3 or more items for 10% discount)
+        if self.discount.is_applicable(len(self.cart.get_items())):
+            total_before_discount = self.cart.get_total_price()
+            discount_amount = self.discount.calculate_discount(total_before_discount)
+        else:
+            discount_amount = 0
+        
+        # Generate invoice with discounts and VAT applied
+        invoice = Invoice(1, [ebook.get_price() for ebook in self.cart.get_items()], [discount_amount])
+        total_after_vat = invoice.calculate_total()
+        
+        self.assertAlmostEqual(total_after_vat, 197.98, places=2)  # Expected total after 10% discount and 8% VAT
+
+if __name__ == "__main__":
+    unittest.main()
