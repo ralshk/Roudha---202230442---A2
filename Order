@@ -1,0 +1,36 @@
+class Order:
+    """Class representing an order with details."""
+
+    def __init__(self, order_id, order_date):
+        self.__order_id = order_id
+        self.__order_date = order_date
+        self.__ebooks = []
+        self.__total_amount = 0.0
+
+    # Getters
+    def get_order_id(self):
+        return self.__order_id
+
+    def get_order_date(self):
+        return self.__order_date
+
+    def get_ebooks(self):
+        return self.__ebooks
+
+    def get_total_amount(self):
+        return self.__total_amount
+
+    # Setters
+    def set_order_id(self, order_id):
+        self.__order_id = order_id
+
+    def set_order_date(self, order_date):
+        self.__order_date = order_date
+
+    def add_ebook(self, ebook):
+        """Adds an e-book to the order."""
+        self.__ebooks.append(ebook)
+        self.__total_amount += ebook.get_price()
+
+    def __str__(self):
+        return f"Order ID: {self.get_order_id()}, Date: {self.get_order_date()}, Total Amount: ${self.get_total_amount():.2f}"
