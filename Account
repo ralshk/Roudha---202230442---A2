@@ -1,0 +1,31 @@
+class Account:
+    """Class representing an account with user details and order history."""
+
+    def __init__(self, username, password):
+        self.__username = username
+        self.__password = password
+        self.__order_history = []
+
+    # Getters
+    def get_username(self):
+        return self.__username
+
+    def get_password(self):
+        return self.__password
+
+    def get_order_history(self):
+        return self.__order_history
+
+    # Setters
+    def set_username(self, username):
+        self.__username = username
+
+    def set_password(self, password):
+        self.__password = password
+
+    def add_order(self, order):
+        """Adds an order to the order history."""
+        self.__order_history.append(order)
+
+    def __str__(self):
+        return f"Account Username: {self.get_username()}, Orders: {len(self.get_order_history())}"
