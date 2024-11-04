@@ -1,0 +1,34 @@
+class ShoppingCart:
+    """Class representing a shopping cart with items and total price."""
+
+    def __init__(self):
+        self.__items = []
+        self.__total_price = 0.0
+
+    # Getters
+    def get_items(self):
+        return self.__items
+
+    def get_total_price(self):
+        return self.__total_price
+
+    # Setters
+    def set_items(self, items):
+        self.__items = items
+
+    def set_total_price(self, total_price):
+        self.__total_price = total_price
+
+    def add_item(self, ebook):
+        """Adds an e-book to the shopping cart."""
+        self.__items.append(ebook)
+        self.__total_price += ebook.get_price()
+
+    def remove_item(self, ebook):
+        """Removes an e-book from the shopping cart."""
+        if ebook in self.__items:
+            self.__items.remove(ebook)
+            self.__total_price -= ebook.get_price()
+
+    def __str__(self):
+        return f"ShoppingCart with {len(self.get_items())} items, Total: ${self.get_total_price():.2f}"
