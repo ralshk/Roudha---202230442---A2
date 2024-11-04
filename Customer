@@ -1,0 +1,37 @@
+class Customer:
+    """Class representing a customer."""
+
+    def __init__(self, name, contact_info, account_num):
+        self.__name = name
+        self.__contact_info = contact_info
+        self.__account_num = account_num
+        self.__account = None
+
+    # Getters
+    def get_name(self):
+        return self.__name
+
+    def get_contact_info(self):
+        return self.__contact_info
+
+    def get_account_num(self):
+        return self.__account_num
+
+    def get_account(self):
+        return self.__account
+
+    # Setters
+    def set_name(self, name):
+        self.__name = name
+
+    def set_contact_info(self, contact_info):
+        self.__contact_info = contact_info
+
+    def set_account_num(self, account_num):
+        self.__account_num = account_num
+
+    def set_account(self, account):
+        self.__account = account
+
+    def __str__(self):
+        return f"Customer: {self.get_name()}, Contact Info: {self.get_contact_info()}, Account Number: {self.get_account_num()}"
