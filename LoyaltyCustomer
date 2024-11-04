@@ -1,0 +1,26 @@
+from Customer import Customer
+
+class LoyaltyCustomer(Customer):
+    """Class representing a loyalty customer, inherits from Customer."""
+
+    def __init__(self, name, contact_info, account_num, loyalty_points, membership_tier):
+        super().__init__(name, contact_info, account_num)
+        self.__loyalty_points = loyalty_points
+        self.__membership_tier = membership_tier
+
+    # Getters
+    def get_loyalty_points(self):
+        return self.__loyalty_points
+
+    def get_membership_tier(self):
+        return self.__membership_tier
+
+    # Setters
+    def set_loyalty_points(self, loyalty_points):
+        self.__loyalty_points = loyalty_points
+
+    def set_membership_tier(self, membership_tier):
+        self.__membership_tier = membership_tier
+
+    def __str__(self):
+        return super().__str__() + f", Loyalty Points: {self.get_loyalty_points()}, Tier: {self.get_membership_tier()}"
